@@ -1,0 +1,42 @@
+function [a0,a1] = regresionl(x,y)
+%{
+Joel Quintuna
+x: vector con valores de x
+y: vector con valores de y
+a0 y a1: son coeficientes que representan la intersección con el eje y y la
+pendiente respectivamente.
+%}
+
+n = length(x) %longitud de los vectores
+sxi_yi= sum(x.*y) %sumatoria de x*y
+sxi= sum(x) %sumatoria de x
+sxic= sum(x.^2) %sumatoria de xi al cuadrado
+csxi=(sxi)^2 %sumatoria de x al cuadrado
+syi= sum(y) %sumatoria de x*y
+a1=((n*sxi_yi)-(sxi*syi))/(n*sxic-csxi) 
+y_=mean(y) %promedio
+x_=mean(x)
+a0=y_-a1*x_
+m=0
+for i=1:length(x)
+    m= m +(y(i)-a0-a1*x(i))
+end
+n=0
+for i=1:length(x)
+    n= n +(y(i)-a0-a1*x(i))^2
+end
+
+l=0
+for i=1:length(x)
+    l= l + abs(y(i)-a0-a1*x(i))
+end
+
+y2= a0+a1*x+m %caso 1, sumatoria (y(i)-a0-a1*x(i))
+y3= a0+a1*x+l % caso 2, sumatoria abs(y(i)-a0-a1*x(i)) 
+y4= a0+a1*x+n % caso 3, sumatoria (y(i)-a0-a1*x(i))^2
+plot(x,y,'dk'), grid on, hold on;axis([0 12,0 12])
+plot(y2,'y--') 
+plot(y3,'b--')  
+plot(y4,'g--')
+legend('Conjunto de datos','linea de ajuste 1','linea de ajuste 2','linea de ajuste 3')
+end
